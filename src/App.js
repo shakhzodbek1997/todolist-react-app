@@ -6,7 +6,36 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import uuid from 'uuid';
 
 class App extends Component {
-    state={
+    state = {
+        items: [],
+        id: uuid(),
+        item:"",
+        editItem: false
+    };
+
+    /*-----------method-----------*/
+    handleChange = e =>{
+      this.setState({
+          item: e.target.value
+      });
+    };
+
+    handleSubmit = e => {
+        e.preventDefault();
+        const newItem ={
+            id:this.state.id,
+            title: this.state.item,
+        };
+
+        console.log(newItem);
+
+        const updatedItems =[...this.state.items,newItem];
+        this.setState({
+            items:updatedItems,
+            item:"",
+            id:uuid(),
+            editItem: false
+        })
 
     };
     render() {
@@ -17,8 +46,11 @@ class App extends Component {
                         <h3 className="text-capitalize text-center">
                             todo input
                         </h3>
-                        <TodoInput />
-                        <TodoList />
+                        <TodoInput
+                            item={this.state.item}
+                            handleChange={this.handleChange}
+                            handleSubmit={this.handleSubmit}/>
+                        <TodoList items={this.state.items}/>
                     </div>
                 </div>
             </div>
